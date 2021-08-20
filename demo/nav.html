@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ch">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/cesium/1.83.0/Widgets/widgets.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.bootcdn.net/ajax/libs/cesium/1.83.0/Cesium.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link
+      href="./navigation.css"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body,
+      #cesiumContainer {
+        height: 100%;
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+      }
+    </style>
+    <style>
+      .map3d {
+        background-image: url('./photo.png');
+      }
+      .cesium-widget-cesiumNavigationContainer {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cesiumContainer"></div>
+  </body>
+  <script>
+    var ION =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2MmY4N2EyYS0zMzRiLTRhMDMtOGRhZC03YTFhY2JkMzVhNDgiLCJpZCI6NjI4ODcsImlhdCI6MTYyNzUzNjA5NX0.915AgZpXkH33dP2FMJxloorpLO5DJ4nN2vNRbp8Ug_Q';
+    Cesium.Ion.defaultAccessToken = ION;
+    var 天地图key = 'cd3fb75338d82f8170f340baf8f27c5c';
+    var place = '杭州';
+    var lnglat = {
+      lon: 120.12,
+      lat: 30.3,
+      height: 1000,
+    };
+    var positon = Cesium.Cartesian3.fromDegrees(120.12, 30.3, 1000.0);
+    var viewer = new Cesium.Viewer('cesiumContainer', {
+      selectionIndicator: false,
+      animation: false,
+      baseLayerPicker: false,
+      timeline: false,
+      sceneModePicker: true,
+      navigationHelpButton: false,
+      useDefaultRenderLoop: true,
+      showRenderLoopErrors: true,
+      fullscreenButton: false,
+      infoBox: false,
+    });
+    let params = {
+      id: '测试',
+      name: 'text',
+      lon: lnglat.lon,
+      lat: lnglat.lat,
+    };
+    
+    let entity = new Cesium.Entity({
+      id: `12`,
+      name: '点',
+      show: true,
+      position: Cesium.Cartesian3.fromDegrees(params.lon, params.lat),
+      point: new Cesium.PointGraphics({
+        show: true,
+        pixelSize: params.pixelSize || 5,
+        heightReference: params.pixelSize || Cesium.HeightReference.NONE,
+        color: params.color || new Cesium.Color(255, 255, 0, 1),
+        outlineColor: params.color || new Cesium.Color(0, 0, 0, 0),
+        outlineWidth: params.outlineWidth || 0,
+        scaleByDistance:
+          params.scaleByDistance || new Cesium.NearFarScalar(0, 1, 5e10, 1),
+        translucencyByDistance:
+          params.translucencyByDistance ||
+          new Cesium.NearFarScalar(0, 1, 5e10, 1),
+        distanceDisplayCondition:
+          params.translucencyByDistance ||
+          new Cesium.DistanceDisplayCondition(0, 4.8e10),
+      }),
+    });
+    const e = viewer.entities.add(entity);
+    viewer.zoomTo(e);
+  </script>
+  <script src="./navigation.js"></script>
+  <script>
+    var options = {};
+    // 用于在使用重置导航重置地图视图时设置默认视图控制。接受的值是Cesium.Cartographic 和 Cesium.Rectangle.
+    options.defaultResetView = Cesium.Rectangle.fromDegrees(80, 22, 130, 50);
+    // 用于启用或禁用罗盘。true是启用罗盘，false是禁用罗盘。默认值为true。如果将选项设置为false，则罗盘将不会添加到地图中。
+    options.enableCompass = true;
+    // 用于启用或禁用缩放控件。true是启用，false是禁用。默认值为true。如果将选项设置为false，则缩放控件将不会添加到地图中。
+    options.enableZoomControls = false;
+    // 用于启用或禁用距离图例。true是启用，false是禁用。默认值为true。如果将选项设置为false，距离图例将不会添加到地图中。
+    options.enableDistanceLegend = false;
+    // 用于启用或禁用指南针外环。true是启用，false是禁用。默认值为true。如果将选项设置为false，则该环将可见但无效。
+    options.enableCompassOuterRing = true;
+    // CesiumNavigation.default(viewer, options);
+    viewer.extend(CesiumNavigation.default, options);
+  </script>
+</html>

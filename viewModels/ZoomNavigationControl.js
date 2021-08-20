@@ -1,4 +1,5 @@
-import { defined, Ray, IntersectionTests, Cartesian3, SceneMode } from 'cesium/Source/Cesium.js'
+// import { defined, Ray, IntersectionTests, Cartesian3, SceneMode } from 'cesium/Source/Cesium.js'
+const { defined, Ray, IntersectionTests, Cartesian3, SceneMode } = Cesium
 import NavigationControl from './NavigationControl'
 import Utils from '../core/Utils'
 

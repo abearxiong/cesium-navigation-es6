@@ -1,4 +1,5 @@
-import { defined, DeveloperError } from 'cesium/Source/Cesium.js'
+// import { defined, DeveloperError } from 'cesium/Source/Cesium.js'
+const { defined, DeveloperError } = Cesium;
 import CesiumNavigation from './CesiumNavigation'
 import './styles/cesium-navigation.css'
 
